@@ -19,7 +19,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <asp:Label ID="Label7" runat="server" CssClass="newStyle1" Font-Bold="True" Font-Size="X-Large" ForeColor="Black" Text="KITCHEN ONLINE"></asp:Label>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <asp:LinkButton ID="LinkButton1" runat="server" OnClick="LinkButton1_Click">Logout</asp:LinkButton>
+            <asp:LinkButton ID="LinkButton1" runat="server" OnClick="LinkButton1_Click" PostBackUrl="~/Login.aspx">Logout</asp:LinkButton>
             <br />
             <br />
             <br />
@@ -65,13 +65,31 @@
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="Delete">
                         <ItemTemplate>
-                            <asp:ImageButton ID="ImageButton2" runat="server" CausesValidation="False" CommandName="Delete" ImageUrl="~/images/delete-icon.png" Text="" />
+                            <asp:ImageButton ID="ImageButton2" runat="server" CausesValidation="False" CommandName="Delete" ImageUrl="~/images/delete-icon.png" Text="Delete" />
                         </ItemTemplate>
-                        <ControlStyle Height="12px" Width="15px" />
+                        <ControlStyle Height="15px" Width="12px" />
                     </asp:TemplateField>
                 </Columns>
             </asp:GridView>
-            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT [Brand_id], [Brand_Name] FROM [Add_brand]"></asp:SqlDataSource>
+            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT * FROM [Add_brand]" ConflictDetection="CompareAllValues" DeleteCommand="DELETE FROM [Add_brand] WHERE [Brand_id] = @original_Brand_id AND (([Brand_Name] = @original_Brand_Name) OR ([Brand_Name] IS NULL AND @original_Brand_Name IS NULL)) AND (([No_of_products] = @original_No_of_products) OR ([No_of_products] IS NULL AND @original_No_of_products IS NULL))" InsertCommand="INSERT INTO [Add_brand] ([Brand_id], [Brand_Name], [No_of_products]) VALUES (@Brand_id, @Brand_Name, @No_of_products)" OldValuesParameterFormatString="original_{0}" UpdateCommand="UPDATE [Add_brand] SET [Brand_Name] = @Brand_Name, [No_of_products] = @No_of_products WHERE [Brand_id] = @original_Brand_id AND (([Brand_Name] = @original_Brand_Name) OR ([Brand_Name] IS NULL AND @original_Brand_Name IS NULL)) AND (([No_of_products] = @original_No_of_products) OR ([No_of_products] IS NULL AND @original_No_of_products IS NULL))">
+                <DeleteParameters>
+                    <asp:Parameter Name="original_Brand_id" Type="Int32" />
+                    <asp:Parameter Name="original_Brand_Name" Type="String" />
+                    <asp:Parameter Name="original_No_of_products" Type="String" />
+                </DeleteParameters>
+                <InsertParameters>
+                    <asp:Parameter Name="Brand_id" Type="Int32" />
+                    <asp:Parameter Name="Brand_Name" Type="String" />
+                    <asp:Parameter Name="No_of_products" Type="String" />
+                </InsertParameters>
+                <UpdateParameters>
+                    <asp:Parameter Name="Brand_Name" Type="String" />
+                    <asp:Parameter Name="No_of_products" Type="String" />
+                    <asp:Parameter Name="original_Brand_id" Type="Int32" />
+                    <asp:Parameter Name="original_Brand_Name" Type="String" />
+                    <asp:Parameter Name="original_No_of_products" Type="String" />
+                </UpdateParameters>
+            </asp:SqlDataSource>
             <br />
             <br />
             <br />

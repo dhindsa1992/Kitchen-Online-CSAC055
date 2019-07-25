@@ -5,6 +5,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="Scripts/jquery-3.0.0.min.js"></script>
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="Scripts/bootstrap.min.js"></script>
     <style type="text/css">
 
         .newStyle1 {
@@ -22,7 +27,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <asp:Label ID="Label7" runat="server" CssClass="newStyle1" Font-Bold="True" Font-Size="X-Large" ForeColor="Black" Text="KITCHEN ONLINE"></asp:Label>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <asp:LinkButton ID="LinkButton1" runat="server" OnClick="LinkButton1_Click1">Logout</asp:LinkButton>
+            <asp:LinkButton ID="LinkButton1" runat="server" OnClick="LinkButton1_Click1" PostBackUrl="~/Login.aspx">Logout</asp:LinkButton>
             <br />
             <br />
             <br />
@@ -62,25 +67,29 @@
                 <Columns>
                     <asp:BoundField DataField="Brand_id" HeaderText="Brand_id" ReadOnly="True" SortExpression="Brand_id" />
                     <asp:BoundField DataField="Brand_Name" HeaderText="Brand_Name" SortExpression="Brand_Name" />
-                    <asp:TemplateField HeaderText="Edit" ShowHeader="False">
-                        <EditItemTemplate>
-                            <asp:ImageButton ID="ImageButton1" runat="server" CausesValidation="True" CommandName="Update" Text="Update" />
-                            &nbsp;<asp:ImageButton ID="ImageButton2" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancel" />
-                        </EditItemTemplate>
-                        <ItemTemplate>
-                            <asp:ImageButton ID="ImageButton1" runat="server" CausesValidation="False" CommandName="Edit" ImageUrl="~/images/oui-icons-50-256.png"  Text="" OnClick="ImageButton1_Click1" />
-                        </ItemTemplate>
-                        <ControlStyle Height="12px" Width="15px" />
-                    </asp:TemplateField>
-                    <asp:TemplateField HeaderText="Delete">
-                        <ItemTemplate>
-                            <asp:ImageButton ID="ImageButton2" runat="server" CausesValidation="False" CommandName="Delete" ImageUrl="~/images/delete-icon.png" Text="" />
-                        </ItemTemplate>
-                        <ControlStyle Height="12px" Width="15px" />
-                    </asp:TemplateField>
+                    <asp:CommandField HeaderText="edit" ShowEditButton="True" ShowHeader="True" />
+                    <asp:CommandField ButtonType="Button" HeaderText="delete" ShowDeleteButton="True" ShowHeader="True" />
                 </Columns>
             </asp:GridView>
-            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT [Brand_id], [Brand_Name] FROM [Add_brand]"></asp:SqlDataSource>
+            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT * FROM [Add_brand]" ConflictDetection="CompareAllValues" DeleteCommand="DELETE FROM [Add_brand] WHERE [Brand_id] = @original_Brand_id AND (([Brand_Name] = @original_Brand_Name) OR ([Brand_Name] IS NULL AND @original_Brand_Name IS NULL)) AND (([No_of_products] = @original_No_of_products) OR ([No_of_products] IS NULL AND @original_No_of_products IS NULL))" InsertCommand="INSERT INTO [Add_brand] ([Brand_id], [Brand_Name], [No_of_products]) VALUES (@Brand_id, @Brand_Name, @No_of_products)" OldValuesParameterFormatString="original_{0}" UpdateCommand="UPDATE [Add_brand] SET [Brand_Name] = @Brand_Name, [No_of_products] = @No_of_products WHERE [Brand_id] = @original_Brand_id AND (([Brand_Name] = @original_Brand_Name) OR ([Brand_Name] IS NULL AND @original_Brand_Name IS NULL)) AND (([No_of_products] = @original_No_of_products) OR ([No_of_products] IS NULL AND @original_No_of_products IS NULL))">
+                <DeleteParameters>
+                    <asp:Parameter Name="original_Brand_id" Type="Int32" />
+                    <asp:Parameter Name="original_Brand_Name" Type="String" />
+                    <asp:Parameter Name="original_No_of_products" Type="String" />
+                </DeleteParameters>
+                <InsertParameters>
+                    <asp:Parameter Name="Brand_id" Type="Int32" />
+                    <asp:Parameter Name="Brand_Name" Type="String" />
+                    <asp:Parameter Name="No_of_products" Type="String" />
+                </InsertParameters>
+                <UpdateParameters>
+                    <asp:Parameter Name="Brand_Name" Type="String" />
+                    <asp:Parameter Name="No_of_products" Type="String" />
+                    <asp:Parameter Name="original_Brand_id" Type="Int32" />
+                    <asp:Parameter Name="original_Brand_Name" Type="String" />
+                    <asp:Parameter Name="original_No_of_products" Type="String" />
+                </UpdateParameters>
+            </asp:SqlDataSource>
             <br />
             <br />
             <br />
