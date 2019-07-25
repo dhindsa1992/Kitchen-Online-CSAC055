@@ -26,5 +26,10 @@ namespace project_1
         {
             Response.Redirect("Login.aspx");
         }
+
+        protected void GridView2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -51,5 +51,10 @@ namespace project_1
         {
             Response.Redirect("Login.aspx");
         }
+
+        protected void ImageButton2_Click1(object sender, ImageClickEventArgs e)
+        {
+
+        }
     }
 }
